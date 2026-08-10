@@ -1,10 +1,11 @@
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Portal personal de Noriel Otalvaro">
-    <title>Noriel Otalvaro | Portal personal</title>
+
+    <title>Noriel Otalvaro</title>
 
     <style>
         * {
@@ -13,127 +14,177 @@
             padding: 0;
         }
 
-        body {
-            min-height: 100vh;
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
             font-family: Arial, Helvetica, sans-serif;
-            background: #f4f6f8;
-            color: #17202a;
+            background: #02030a;
+            color: white;
+        }
+
+        body {
+            position: relative;
+        }
+
+        canvas {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            height: 100%;
             display: flex;
-            justify-content: center;
             align-items: center;
-            padding: 30px;
+            justify-content: center;
+            text-align: center;
+            padding: 25px;
         }
 
         .container {
-            width: 100%;
-            max-width: 850px;
-            text-align: center;
+            width: min(900px, 100%);
         }
 
-        .profile {
-            margin-bottom: 45px;
+        .moon {
+            width: 78px;
+            height: 78px;
+            margin: 0 auto 28px;
+            border-radius: 50%;
+            background:
+                radial-gradient(circle at 32% 30%,
+                    #ffffff 0%,
+                    #e9e9f2 35%,
+                    #b8b8c8 70%,
+                    #777788 100%);
+            box-shadow:
+                0 0 25px rgba(255,255,255,.35),
+                0 0 70px rgba(130,140,255,.18);
+            position: relative;
         }
 
-        .avatar {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 20px;
-            border-radius: 22px;
-            background: #17202a;
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 25px;
-            font-weight: bold;
+        .moon::after {
+            content: "";
+            position: absolute;
+            width: 78px;
+            height: 78px;
+            border-radius: 50%;
+            background: #02030a;
+            left: 25px;
+            top: -8px;
         }
 
         h1 {
-            font-size: 42px;
-            margin-bottom: 10px;
-            letter-spacing: -1.5px;
+            font-size: clamp(42px, 7vw, 78px);
+            font-weight: 500;
+            letter-spacing: -3px;
+            margin-bottom: 12px;
+            text-shadow: 0 0 30px rgba(255,255,255,.15);
         }
 
         .subtitle {
-            color: #6b7280;
             font-size: 18px;
+            color: rgba(255,255,255,.58);
+            letter-spacing: 2px;
+            margin-bottom: 45px;
         }
 
         .services {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            display: flex;
+            justify-content: center;
             gap: 18px;
+            flex-wrap: wrap;
         }
 
-        .card {
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 20px;
-            padding: 30px 22px;
+        .service {
+            width: 210px;
+            padding: 22px 20px;
+            border-radius: 18px;
             text-decoration: none;
-            color: #17202a;
-            transition: all 0.25s ease;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+            color: white;
+            background: rgba(255,255,255,.055);
+            border: 1px solid rgba(255,255,255,.12);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition:
+                transform .3s ease,
+                background .3s ease,
+                border-color .3s ease,
+                box-shadow .3s ease;
         }
 
-        .card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.10);
-            border-color: #cbd5e1;
+        .service:hover {
+            transform: translateY(-7px);
+            background: rgba(255,255,255,.10);
+            border-color: rgba(255,255,255,.28);
+            box-shadow: 0 15px 45px rgba(0,0,0,.35);
         }
 
         .icon {
-            font-size: 35px;
-            margin-bottom: 18px;
+            font-size: 30px;
+            margin-bottom: 10px;
         }
 
-        .card h2 {
-            font-size: 19px;
-            margin-bottom: 8px;
+        .service-title {
+            font-size: 17px;
+            font-weight: 600;
+            margin-bottom: 6px;
         }
 
-        .card p {
-            color: #6b7280;
-            font-size: 14px;
-            line-height: 1.5;
-        }
-
-        .coming {
-            cursor: default;
-        }
-
-        .badge {
-            display: inline-block;
-            margin-top: 15px;
-            padding: 5px 9px;
-            border-radius: 20px;
-            background: #f1f5f9;
-            color: #64748b;
-            font-size: 11px;
-            font-weight: bold;
-        }
-
-        footer {
-            margin-top: 40px;
-            color: #9ca3af;
+        .service-description {
             font-size: 13px;
+            color: rgba(255,255,255,.5);
         }
 
-        @media (max-width: 700px) {
-            body {
-                padding: 20px;
+        .footer {
+            position: fixed;
+            bottom: 22px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            z-index: 2;
+            font-size: 12px;
+            color: rgba(255,255,255,.3);
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 600px) {
+
+            html, body {
+                overflow-y: auto;
+            }
+
+            .content {
+                min-height: 100%;
+                height: auto;
+                padding: 70px 20px;
             }
 
             h1 {
-                font-size: 34px;
+                letter-spacing: -2px;
+            }
+
+            .subtitle {
+                margin-bottom: 35px;
             }
 
             .services {
-                grid-template-columns: 1fr;
+                flex-direction: column;
+                align-items: center;
             }
 
-            .card {
-                padding: 25px;
+            .service {
+                width: min(330px, 100%);
+            }
+
+            .footer {
+                position: relative;
+                margin-top: 20px;
             }
         }
     </style>
@@ -141,79 +192,345 @@
 
 <body>
 
+<canvas id="space"></canvas>
+
+<div class="content">
+
     <div class="container">
 
-        <header class="profile">
+        <div class="moon"></div>
 
-            <div class="avatar">
-                NO
-            </div>
+        <h1>Noriel Otalvaro</h1>
 
-            <h1>Noriel Otalvaro</h1>
+        <p class="subtitle">
+            MI PORTAL PERSONAL
+        </p>
 
-            <p class="subtitle">
-                Mi portal personal
-            </p>
-
-        </header>
-
-
-        <main class="services">
-
-            <!-- CORREO -->
+        <div class="services">
 
             <a
-                class="card"
+                class="service"
                 href="https://accounts.zoho.com/signin?service_language=es&servicename=VirtualOffice&signupurl=https://www.zoho.com/mail/signup.html&serviceurl=https://mail.zoho.com"
-                target="_blank"
-                rel="noopener noreferrer"
             >
-
                 <div class="icon">📧</div>
 
-                <h2>Correo</h2>
+                <div class="service-title">
+                    Correo
+                </div>
 
-                <p>
-                    Accede a tu correo personal en Zoho Mail.
-                </p>
-
+                <div class="service-description">
+                    Zoho Mail
+                </div>
             </a>
 
 
-            <!-- FOTOS --> 
-            <a class="card" href="https://fotos.norielotalvaro.com" target="_blank" rel="noopener noreferrer" > 
-                <div class="icon">📸</div> 
-                <h2>Fotos</h2> 
-                <p> Tu biblioteca personal de fotografías. </p> 
+            <a
+                class="service"
+                href="https://fotos.norielotalvaro.com"
+            >
+                <div class="icon">📸</div>
+
+                <div class="service-title">
+                    Fotos
+                </div>
+
+                <div class="service-description">
+                    Mi biblioteca personal
+                </div>
             </a>
 
 
-            <!-- SERVIDOR -->
-
-            <div class="card coming">
-
+            <a
+                class="service"
+                href="#"
+                onclick="return false;"
+            >
                 <div class="icon">🖥️</div>
 
-                <h2>Servidor</h2>
+                <div class="service-title">
+                    Servidor
+                </div>
 
-                <p>
-                    Acceso a tus servicios y herramientas personales.
-                </p>
-
-                <span class="badge">
+                <div class="service-description">
                     Próximamente
-                </span>
+                </div>
+            </a>
 
-            </div>
-
-        </main>
-
-
-        <footer>
-            © 2026 Noriel Otalvaro
-        </footer>
+        </div>
 
     </div>
 
+</div>
+
+<div class="footer">
+    NORIEL OTALVARO · PERSONAL PORTAL
+</div>
+
+
+<script>
+
+const canvas = document.getElementById("space");
+const ctx = canvas.getContext("2d");
+
+let width;
+let height;
+
+let mouse = {
+    x: window.innerWidth / 2,
+    y: window.innerHeight / 2
+};
+
+let particles = [];
+
+const PARTICLE_COUNT = 110;
+const CONNECTION_DISTANCE = 135;
+
+function resize() {
+
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+
+    particles = [];
+
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+
+        particles.push({
+            x: Math.random() * width,
+            y: Math.random() * height,
+
+            vx: (Math.random() - 0.5) * 0.25,
+            vy: (Math.random() - 0.5) * 0.25,
+
+            radius: Math.random() * 1.7 + 0.4
+        });
+    }
+}
+
+window.addEventListener("resize", resize);
+
+window.addEventListener("mousemove", (event) => {
+
+    mouse.x = event.clientX;
+    mouse.y = event.clientY;
+
+});
+
+window.addEventListener("touchmove", (event) => {
+
+    if (event.touches.length > 0) {
+
+        mouse.x = event.touches[0].clientX;
+        mouse.y = event.touches[0].clientY;
+
+    }
+
+}, { passive: true });
+
+
+function draw() {
+
+    ctx.clearRect(0, 0, width, height);
+
+    /*
+        Fondo espacial
+    */
+
+    const gradient = ctx.createRadialGradient(
+        mouse.x,
+        mouse.y,
+        0,
+        mouse.x,
+        mouse.y,
+        Math.max(width, height) * 0.7
+    );
+
+    gradient.addColorStop(0, "rgba(65,75,140,.13)");
+    gradient.addColorStop(0.4, "rgba(10,15,45,.08)");
+    gradient.addColorStop(1, "rgba(0,0,0,0)");
+
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, width, height);
+
+
+    /*
+        Movimiento de partículas
+    */
+
+    particles.forEach(p => {
+
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < 0 || p.x > width)
+            p.vx *= -1;
+
+        if (p.y < 0 || p.y > height)
+            p.vy *= -1;
+
+
+        /*
+            Atracción hacia el mouse
+        */
+
+        const dx = mouse.x - p.x;
+        const dy = mouse.y - p.y;
+
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance < 190) {
+
+            const force = (190 - distance) / 190;
+
+            p.x -= dx * force * 0.0025;
+            p.y -= dy * force * 0.0025;
+        }
+
+    });
+
+
+    /*
+        Líneas de constelación
+    */
+
+    for (let i = 0; i < particles.length; i++) {
+
+        for (let j = i + 1; j < particles.length; j++) {
+
+            const a = particles[i];
+            const b = particles[j];
+
+            const dx = a.x - b.x;
+            const dy = a.y - b.y;
+
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < CONNECTION_DISTANCE) {
+
+                const opacity =
+                    (1 - distance / CONNECTION_DISTANCE) * 0.32;
+
+                ctx.beginPath();
+
+                ctx.moveTo(a.x, a.y);
+                ctx.lineTo(b.x, b.y);
+
+                ctx.strokeStyle =
+                    `rgba(180,190,255,${opacity})`;
+
+                ctx.lineWidth = 0.6;
+
+                ctx.stroke();
+            }
+        }
+    }
+
+
+    /*
+        Conexiones con el puntero
+    */
+
+    particles.forEach(p => {
+
+        const dx = mouse.x - p.x;
+        const dy = mouse.y - p.y;
+
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance < 220) {
+
+            const opacity =
+                (1 - distance / 220) * 0.55;
+
+            ctx.beginPath();
+
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(mouse.x, mouse.y);
+
+            ctx.strokeStyle =
+                `rgba(210,220,255,${opacity})`;
+
+            ctx.lineWidth = 0.8;
+
+            ctx.stroke();
+        }
+    });
+
+
+    /*
+        Estrellas
+    */
+
+    particles.forEach(p => {
+
+        const dx = mouse.x - p.x;
+        const dy = mouse.y - p.y;
+
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        let glow = 0.55;
+
+        if (distance < 180) {
+            glow += (1 - distance / 180) * 0.45;
+        }
+
+        ctx.beginPath();
+
+        ctx.arc(
+            p.x,
+            p.y,
+            p.radius,
+            0,
+            Math.PI * 2
+        );
+
+        ctx.fillStyle =
+            `rgba(225,230,255,${glow})`;
+
+        ctx.fill();
+    });
+
+
+    /*
+        Punto luminoso del cursor
+    */
+
+    const cursorGlow = ctx.createRadialGradient(
+        mouse.x,
+        mouse.y,
+        0,
+        mouse.x,
+        mouse.y,
+        80
+    );
+
+    cursorGlow.addColorStop(
+        0,
+        "rgba(180,195,255,.18)"
+    );
+
+    cursorGlow.addColorStop(
+        1,
+        "rgba(180,195,255,0)"
+    );
+
+    ctx.fillStyle = cursorGlow;
+
+    ctx.fillRect(
+        mouse.x - 80,
+        mouse.y - 80,
+        160,
+        160
+    );
+
+
+    requestAnimationFrame(draw);
+}
+
+resize();
+draw();
+
+</script>
+
 </body>
 </html>
+```
