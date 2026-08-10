@@ -44,10 +44,7 @@
         }
 
         body {
-
             position: relative;
-
-            cursor: default;
         }
 
 
@@ -67,6 +64,86 @@
             z-index: 0;
 
             pointer-events: none;
+        }
+
+
+        /* =====================================================
+           HALO DEL PUNTERO
+        ===================================================== */
+
+        .mouse-glow {
+
+            position: fixed;
+
+            width: 340px;
+            height: 340px;
+
+            border-radius: 50%;
+
+            pointer-events: none;
+
+            z-index: 1;
+
+            transform:
+                translate(-50%, -50%);
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(160, 180, 255, .22) 0%,
+                    rgba(145, 165, 255, .13) 18%,
+                    rgba(120, 145, 255, .07) 36%,
+                    rgba(100, 125, 255, .035) 52%,
+                    transparent 75%
+                );
+
+            filter:
+                blur(9px);
+
+            opacity: 0;
+
+            transition:
+                opacity .2s ease;
+        }
+
+
+        /* =====================================================
+           NÚCLEO DEL HALO
+        ===================================================== */
+
+        .mouse-glow::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 8px;
+            height: 8px;
+
+            left: 50%;
+            top: 50%;
+
+            transform:
+                translate(-50%, -50%);
+
+            border-radius: 50%;
+
+            background:
+                rgba(235, 240, 255, .98);
+
+            box-shadow:
+
+                0 0 10px
+                rgba(215, 225, 255, 1),
+
+                0 0 25px
+                rgba(175, 195, 255, .85),
+
+                0 0 55px
+                rgba(145, 170, 255, .55),
+
+                0 0 90px
+                rgba(125, 150, 255, .25);
         }
 
 
@@ -99,7 +176,6 @@
 
             width:
                 min(900px, 100%);
-
         }
 
 
@@ -150,7 +226,7 @@
         }
 
 
-        /* Brillo lunar */
+        /* Iluminación de la luna */
 
         .moon::before {
 
@@ -166,7 +242,7 @@
 
                 radial-gradient(
                     circle at 30% 25%,
-                    rgba(255,255,255,.5),
+                    rgba(255,255,255,.50),
                     transparent 35%
                 ),
 
@@ -263,107 +339,78 @@
 
 
         .crater-1 {
-
             width: 24px;
             height: 24px;
-
             left: 17px;
             top: 23px;
         }
 
-
         .crater-2 {
-
             width: 14px;
             height: 14px;
-
             left: 53px;
             top: 14px;
         }
 
-
         .crater-3 {
-
             width: 29px;
             height: 29px;
-
             left: 55px;
             top: 53px;
         }
 
-
         .crater-4 {
-
             width: 17px;
             height: 17px;
-
             left: 20px;
             top: 67px;
         }
 
-
         .crater-5 {
-
             width: 11px;
             height: 11px;
-
             left: 73px;
             top: 35px;
         }
 
-
         .crater-6 {
-
             width: 13px;
             height: 13px;
-
             left: 41px;
             top: 43px;
         }
 
-
         .crater-7 {
-
             width: 9px;
             height: 9px;
-
             left: 79px;
             top: 76px;
         }
 
-
         .crater-8 {
-
             width: 18px;
             height: 18px;
-
             left: 7px;
             top: 51px;
         }
 
-
         .crater-9 {
-
             width: 8px;
             height: 8px;
-
             left: 35px;
             top: 12px;
         }
 
-
         .crater-10 {
-
             width: 12px;
             height: 12px;
-
             left: 87px;
             top: 51px;
         }
 
 
         /* =====================================================
-           SOMBRA DE FASE LUNAR
+           SOMBRA LUNAR
         ===================================================== */
 
         .moon-shadow {
@@ -375,7 +422,8 @@
 
             border-radius: 50%;
 
-            background: #02030a;
+            background:
+                #02030a;
 
             left: 39px;
             top: -12px;
@@ -406,9 +454,6 @@
             text-shadow:
                 0 0 30px
                 rgba(255,255,255,.15);
-
-            transition:
-                text-shadow .4s ease;
         }
 
 
@@ -473,11 +518,8 @@
             transition:
 
                 transform .3s ease,
-
                 background .3s ease,
-
                 border-color .3s ease,
-
                 box-shadow .3s ease;
         }
 
@@ -503,8 +545,7 @@
         }
 
 
-        .service:hover
-        .icon {
+        .service:hover .icon {
 
             transform:
                 scale(1.12);
@@ -632,6 +673,12 @@
                     20px;
             }
 
+
+            .mouse-glow {
+
+                display: none;
+            }
+
         }
 
     </style>
@@ -643,15 +690,22 @@
 
 
     <!-- =====================================================
-         CANVAS
-    ====================================================== -->
+         HALO DEL PUNTERO
+    ===================================================== -->
+
+    <div class="mouse-glow"></div>
+
+
+    <!-- =====================================================
+         CONSTELACIONES
+    ===================================================== -->
 
     <canvas id="constellation"></canvas>
 
 
     <!-- =====================================================
          CONTENIDO
-    ====================================================== -->
+    ===================================================== -->
 
     <div class="content">
 
@@ -787,7 +841,7 @@
 
     <!-- =====================================================
          FOOTER
-    ====================================================== -->
+    ===================================================== -->
 
     <div class="footer">
 
@@ -797,10 +851,15 @@
 
 
     <!-- =====================================================
-         JAVASCRIPT — CONSTELACIONES
-    ====================================================== -->
+         JAVASCRIPT
+    ===================================================== -->
 
     <script>
+
+
+        /* =====================================================
+           CANVAS
+        ===================================================== */
 
         const canvas =
             document.getElementById(
@@ -815,6 +874,10 @@
         let height;
 
 
+        /* =====================================================
+           MOUSE
+        ===================================================== */
+
         let mouse = {
 
             x: null,
@@ -825,37 +888,34 @@
         };
 
 
-        let stars = [];
+        const mouseGlow =
+            document.querySelector(
+                ".mouse-glow"
+            );
 
 
-        /*
-         * Cantidad de estrellas
-         */
+        /* =====================================================
+           CONFIGURACIÓN
+        ===================================================== */
 
         const STAR_DENSITY =
             8500;
 
 
-        /*
-         * Distancia máxima entre
-         * estrellas para crear líneas
-         */
-
         const CONNECTION_DISTANCE =
             125;
 
-
-        /*
-         * Distancia del mouse
-         */
 
         const MOUSE_DISTANCE =
             180;
 
 
-        /*
-         * Inicializar canvas
-         */
+        let stars = [];
+
+
+        /* =====================================================
+           REDIMENSIONAR
+        ===================================================== */
 
         function resize() {
 
@@ -873,9 +933,9 @@
         }
 
 
-        /*
-         * Crear estrellas
-         */
+        /* =====================================================
+           CREAR ESTRELLAS
+        ===================================================== */
 
         function createStars() {
 
@@ -940,9 +1000,9 @@
         }
 
 
-        /*
-         * Mouse
-         */
+        /* =====================================================
+           MOVIMIENTO DEL PUNTERO
+        ===================================================== */
 
         window.addEventListener(
             "mousemove",
@@ -954,12 +1014,34 @@
                 mouse.y =
                     event.clientY;
 
+
                 mouse.active =
                     true;
+
+
+                /*
+                 * IMPORTANTE:
+                 * el halo se coloca directamente
+                 * sobre el puntero.
+                 */
+
+                mouseGlow.style.left =
+                    event.clientX + "px";
+
+                mouseGlow.style.top =
+                    event.clientY + "px";
+
+
+                mouseGlow.style.opacity =
+                    "1";
 
             }
         );
 
+
+        /* =====================================================
+           SALIR DE LA VENTANA
+        ===================================================== */
 
         window.addEventListener(
             "mouseleave",
@@ -968,13 +1050,16 @@
                 mouse.active =
                     false;
 
+                mouseGlow.style.opacity =
+                    "0";
+
             }
         );
 
 
-        /*
-         * Touch
-         */
+        /* =====================================================
+           TOUCH
+        ===================================================== */
 
         window.addEventListener(
             "touchmove",
@@ -984,16 +1069,15 @@
                     event.touches.length
                 ) {
 
+                    const touch =
+                        event.touches[0];
+
+
                     mouse.x =
-                        event.touches[0]
-                        .clientX;
+                        touch.clientX;
 
                     mouse.y =
-                        event.touches[0]
-                        .clientY;
-
-                    mouse.active =
-                        true;
+                        touch.clientY;
 
                 }
 
@@ -1004,9 +1088,9 @@
         );
 
 
-        /*
-         * Dibujar estrellas
-         */
+        /* =====================================================
+           DIBUJAR CONSTELACIONES
+        ===================================================== */
 
         function drawStars() {
 
@@ -1018,24 +1102,22 @@
             );
 
 
-            /*
-             * Actualizar estrellas
-             */
+            /* -----------------------------------------------
+               MOVIMIENTO DE LAS ESTRELLAS
+            ------------------------------------------------ */
 
             stars.forEach(
                 star => {
 
-                    star.x += star.vx;
+                    star.x +=
+                        star.vx;
 
-                    star.y += star.vy;
+                    star.y +=
+                        star.vy;
 
                     star.pulse +=
                         star.pulseSpeed;
 
-
-                    /*
-                     * Rebote suave
-                     */
 
                     if (
                         star.x < -20 ||
@@ -1057,9 +1139,9 @@
                     }
 
 
-                    /*
-                     * Interacción con mouse
-                     */
+                    /* -----------------------------------------
+                       REACCIÓN AL PUNTERO
+                    ------------------------------------------ */
 
                     if (
                         mouse.active
@@ -1093,16 +1175,11 @@
                                 MOUSE_DISTANCE;
 
 
-                            /*
-                             * Las estrellas
-                             * se separan
-                             * ligeramente
-                             */
-
                             star.x -=
                                 dx *
                                 force *
                                 .0025;
+
 
                             star.y -=
                                 dy *
@@ -1117,9 +1194,9 @@
             );
 
 
-            /*
-             * Líneas entre estrellas
-             */
+            /* -----------------------------------------------
+               CONEXIONES ENTRE ESTRELLAS
+            ------------------------------------------------ */
 
             for (
                 let i = 0;
@@ -1168,10 +1245,8 @@
                             * .22;
 
 
-                        /*
-                         * Intensificar
-                         * alrededor del mouse
-                         */
+                        /* Más intensidad
+                           cerca del puntero */
 
                         if (
                             mouse.active
@@ -1184,6 +1259,7 @@
                                     mouse.y -
                                     a.y
                                 );
+
 
                             const db =
                                 Math.hypot(
@@ -1210,10 +1286,12 @@
 
                         ctx.beginPath();
 
+
                         ctx.moveTo(
                             a.x,
                             a.y
                         );
+
 
                         ctx.lineTo(
                             b.x,
@@ -1243,9 +1321,9 @@
             }
 
 
-            /*
-             * Líneas hacia el mouse
-             */
+            /* -----------------------------------------------
+               LÍNEAS HACIA EL PUNTERO
+            ------------------------------------------------ */
 
             if (
                 mouse.active
@@ -1322,9 +1400,9 @@
             }
 
 
-            /*
-             * Dibujar estrellas
-             */
+            /* -----------------------------------------------
+               ESTRELLAS
+            ------------------------------------------------ */
 
             stars.forEach(
                 star => {
@@ -1339,11 +1417,6 @@
                     let radius =
                         star.radius;
 
-
-                    /*
-                     * Brillo adicional
-                     * cerca del mouse
-                     */
 
                     if (
                         mouse.active
@@ -1421,13 +1494,9 @@
         }
 
 
-        /*
-         * Cuando el mouse entra
-         * en una tarjeta:
-         *
-         * aumentamos la actividad
-         * visual del fondo.
-         */
+        /* =====================================================
+           EFECTO SOBRE LAS TARJETAS
+        ===================================================== */
 
         const services =
             document.querySelectorAll(
@@ -1442,27 +1511,7 @@
                     "mouseenter",
                     function() {
 
-                        document.body
-                            .classList
-                            .add(
-                                "card-active"
-                            );
-
                         intensifyConstellation();
-
-                    }
-                );
-
-
-                service.addEventListener(
-                    "mouseleave",
-                    function() {
-
-                        document.body
-                            .classList
-                            .remove(
-                                "card-active"
-                            );
 
                     }
                 );
@@ -1471,9 +1520,9 @@
         );
 
 
-        /*
-         * Efecto de intensidad
-         */
+        /* =====================================================
+           INTENSIFICAR CONSTELACIÓN
+        ===================================================== */
 
         function intensifyConstellation() {
 
@@ -1485,6 +1534,7 @@
 
                     star.vy *=
                         1.8;
+
 
                     setTimeout(
                         () => {
@@ -1503,9 +1553,9 @@
         }
 
 
-        /*
-         * Inicialización
-         */
+        /* =====================================================
+           INICIAR
+        ===================================================== */
 
         window.addEventListener(
             "resize",
