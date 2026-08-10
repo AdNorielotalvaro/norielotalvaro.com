@@ -3,17 +3,227 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Noriel Otalvaro</title>
+    <meta name="description" content="Portal personal de Noriel Otalvaro">
+    <title>Noriel Otalvaro | Portal personal</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f6f8;
+            color: #17202a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 850px;
+            text-align: center;
+        }
+
+        .profile {
+            margin-bottom: 45px;
+        }
+
+        .avatar {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            border-radius: 22px;
+            background: #17202a;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        h1 {
+            font-size: 42px;
+            margin-bottom: 10px;
+            letter-spacing: -1.5px;
+        }
+
+        .subtitle {
+            color: #6b7280;
+            font-size: 18px;
+        }
+
+        .services {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 20px;
+            padding: 30px 22px;
+            text-decoration: none;
+            color: #17202a;
+            transition: all 0.25s ease;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.10);
+            border-color: #cbd5e1;
+        }
+
+        .icon {
+            font-size: 35px;
+            margin-bottom: 18px;
+        }
+
+        .card h2 {
+            font-size: 19px;
+            margin-bottom: 8px;
+        }
+
+        .card p {
+            color: #6b7280;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .coming {
+            cursor: default;
+        }
+
+        .badge {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 5px 9px;
+            border-radius: 20px;
+            background: #f1f5f9;
+            color: #64748b;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        footer {
+            margin-top: 40px;
+            color: #9ca3af;
+            font-size: 13px;
+        }
+
+        @media (max-width: 700px) {
+            body {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 34px;
+            }
+
+            .services {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 25px;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-    <h1>Noriel Otalvaro</h1>
-    <p>Mi portal personal</p>
+    <div class="container">
 
-    <div>
-        <a href="https://mail.zoho.com/">📧 Correo</a>
-        <a href="#">📸 Fotos</a>
+        <header class="profile">
+
+            <div class="avatar">
+                NO
+            </div>
+
+            <h1>Noriel Otalvaro</h1>
+
+            <p class="subtitle">
+                Mi portal personal
+            </p>
+
+        </header>
+
+
+        <main class="services">
+
+            <!-- CORREO -->
+
+            <a
+                class="card"
+                href="https://mail.zoho.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+
+                <div class="icon">📧</div>
+
+                <h2>Correo</h2>
+
+                <p>
+                    Accede a tu correo personal en Zoho Mail.
+                </p>
+
+            </a>
+
+
+            <!-- FOTOS -->
+
+            <div class="card coming">
+
+                <div class="icon">📸</div>
+
+                <h2>Fotos</h2>
+
+                <p>
+                    Tu biblioteca personal de fotografías.
+                </p>
+
+                <span class="badge">
+                    Próximamente
+                </span>
+
+            </div>
+
+
+            <!-- SERVIDOR -->
+
+            <div class="card coming">
+
+                <div class="icon">🖥️</div>
+
+                <h2>Servidor</h2>
+
+                <p>
+                    Acceso a tus servicios y herramientas personales.
+                </p>
+
+                <span class="badge">
+                    Próximamente
+                </span>
+
+            </div>
+
+        </main>
+
+
+        <footer>
+            © 2026 Noriel Otalvaro
+        </footer>
+
     </div>
 
 </body>
